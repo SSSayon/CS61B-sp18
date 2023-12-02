@@ -17,6 +17,11 @@ public class ArrayDeque<T> {
         T[] new_arr = (T[]) new Object[new_length];
         int p = start;
         int new_end = 0;
+
+        new_arr[new_end] = arr[p];
+        p = addOne(p);
+        new_end += 1; 
+            
         while (p != end) {
             new_arr[new_end] = arr[p];
             p = addOne(p);
@@ -26,22 +31,29 @@ public class ArrayDeque<T> {
         start = 0;
         end = new_end;
         arr = new_arr;
-    } 
+    }
+
     private void resizeBigger() {
         resize(length * 2);
     }
+
     private void resizeSmaller() {
         resize(length / 2);
     }
 
     private int addOne(int index) {
         int ret = (index + 1) % length;
-        if (ret < 0) { ret += length; }
+        if (ret < 0) {
+            ret += length;
+        }
         return ret;
     }
+
     private int minusOne(int index) {
         int ret = (index - 1) % length;
-        if (ret < 0) { ret += length; }
+        if (ret < 0) {
+            ret += length;
+        }
         return ret;
     }
 
@@ -49,14 +61,18 @@ public class ArrayDeque<T> {
         start = minusOne(start);
         arr[start] = item;
         size += 1;
-        if (size == length) { resizeBigger(); }
+        if (size == length) {
+            resizeBigger();
+        }
     }
 
     public void addLast(T item) {
         arr[end] = item;
         end = addOne(end);
         size += 1;
-        if (size == length) { resizeBigger(); }
+        if (size == length) {
+            resizeBigger();
+        }
     }
 
     public boolean isEmpty() {
@@ -76,27 +92,37 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (size == 0) { return null; }
+        if (size == 0) {
+            return null;
+        }
         T ret = arr[start];
         arr[start] = null;
         start = addOne(start);
         size -= 1;
-        if ((size * 4 < length) && (length >= 16)) { resizeSmaller(); }
+        if ((size * 4 <= length) && (length >= 16)) {
+            resizeSmaller();
+        }
         return ret;
     }
 
     public T removeLast() {
-        if (size == 0) { return null; }
+        if (size == 0) {
+            return null;
+        }
         end = minusOne(end);
         T ret = arr[end];
         arr[end] = null;
         size -= 1;
-        if ((size * 4 < length) && (length >= 16)) { resizeSmaller(); }
+        if ((size * 4 <= length) && (length >= 16)) {
+            resizeSmaller();
+        }
         return ret;
     }
 
     public T get(int n) {
-        if (n > size) { return null; }
+        if ((size == 0) || (n > size)) {
+            return null;
+        }
         int p = start;
         while (n > 0) {
             p = addOne(p);
@@ -105,23 +131,24 @@ public class ArrayDeque<T> {
         return arr[p];
     }
 
-    // public static void main(String args[]) {
-    //     LinkedListDeque<Integer> list = new LinkedListDeque<>();
-    //     for (int i = 0; i < 6; ++i) {
-    //         list.addLast(i + 6);
-    //     }
-    //     for (int i = 0; i < 6; ++i) {
-    //         list.addFirst(5 - i);
-    //     }
-    //     list.printDeque();
-    //     System.out.println();
 
-    //     for (int i = 0; i < 5; ++i) {
-    //         list.removeFirst();
-    //         list.removeLast();
-    //     }
-    //     list.printDeque();
-    //     System.err.println();
-    //     System.out.println(list.size());
-    // }
+    public static void main(String args[]) {
+        ArrayDeque<Integer> list = new ArrayDeque<>();
+        for (int i = 0; i < 6; ++i) {
+            list.addLast(i + 6);
+        }
+        for (int i = 0; i < 6; ++i) {
+            list.addFirst(5 - i);
+        }
+        list.printDeque();
+        System.out.println();
+
+        for (int i = 0; i < 5; ++i) {
+            list.removeFirst();
+            list.removeLast();
+        }
+        list.printDeque();
+        System.out.println();
+        System.out.println(list.size());
+    }
 }
