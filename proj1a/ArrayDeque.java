@@ -21,7 +21,7 @@ public class ArrayDeque<T> {
         new_arr[new_end] = arr[p];
         p = addOne(p);
         new_end += 1; 
-            
+
         while (p != end) {
             new_arr[new_end] = arr[p];
             p = addOne(p);
@@ -132,23 +132,23 @@ public class ArrayDeque<T> {
     }
 
 
-    public static void main(String args[]) {
-        ArrayDeque<Integer> list = new ArrayDeque<>();
-        for (int i = 0; i < 6; ++i) {
-            list.addLast(i + 6);
-        }
-        for (int i = 0; i < 6; ++i) {
-            list.addFirst(5 - i);
-        }
-        list.printDeque();
-        System.out.println();
+    // public static void main(String args[]) {
+    //     ArrayDeque<Integer> list = new ArrayDeque<>();
+    //     for (int i = 0; i < 6; ++i) {
+    //         list.addLast(i + 6);
+    //     }
+    //     for (int i = 0; i < 6; ++i) {
+    //         list.addFirst(5 - i);
+    //     }
+    //     list.printDeque();
+    //     System.out.println();
 
-        for (int i = 0; i < 5; ++i) {
-            list.removeFirst();
-            list.removeLast();
-        }
-        list.printDeque();
-        System.out.println();
-        System.out.println(list.size());
-    }
+    //     for (int i = 0; i < 5; ++i) {
+    //         list.removeFirst();
+    //         list.removeLast();
+    //     }
+    //     list.printDeque();
+    //     System.out.println();
+    //     System.out.println(list.size());
+    // }
 }

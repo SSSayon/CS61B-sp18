@@ -1,5 +1,5 @@
 public class LinkedListDeque<T> {
-    public class Node {
+    private class Node {
         public T item;
         public Node prev;
         public Node next;
@@ -18,7 +18,6 @@ public class LinkedListDeque<T> {
 
     private int size;
     private Node node0;
-    public char[] length;
 
     public LinkedListDeque() {
         node0 = new Node(null, null);
