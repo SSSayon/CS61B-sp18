@@ -4,15 +4,15 @@ public class LinkedListDeque<T> implements Deque<T> {
         public Node prev;
         public Node next;
 
-        public Node(T _item, Node _prev, Node _next) {
-            item = _item;
-            prev = _prev;
-            next = _next;
+        public Node(T item, Node prev, Node next) {
+            this.item = item;
+            this.prev = prev;
+            this.next = next;
         }
 
-        public Node(Node _prev, Node _next) {
-            prev = _prev;
-            next = _next;
+        public Node(Node prev, Node next) {
+            this.prev = prev;
+            this.next = next;
         }
     }
 
@@ -105,18 +105,18 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
     // public void _Test() {
-    //     printDeque();
-    //     System.out.println();
-    //     System.out.println(size);
+    // printDeque();
+    // System.out.println();
+    // System.out.println(size);
     // }
 
     // public static void main(String args[]) {
-    //     LinkedListDeque<Integer> list = new LinkedListDeque<>();
-    //     list.addFirst(1);
-    //     list.addFirst(0);
-    //     list.addLast(2);
-    //     list.addLast(3);
-    //     list._Test();
-    //     System.out.println(list.get(2) + " " + list.getRecursive(2));
+    // LinkedListDeque<Integer> list = new LinkedListDeque<>();
+    // list.addFirst(1);
+    // list.addFirst(0);
+    // list.addLast(2);
+    // list.addLast(3);
+    // list._Test();
+    // System.out.println(list.get(2) + " " + list.getRecursive(2));
     // }
 }
