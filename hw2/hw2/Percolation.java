@@ -61,7 +61,7 @@ public class Percolation {
             }
             if (col < SIZE - 1 && isOpen(row, col + 1)) {
                 UF.union(index, getIndex(row, col + 1));
-                UF2.union(index, getIndex(row, col + 1));s
+                UF2.union(index, getIndex(row, col + 1));
             }
         }
     }
