@@ -3,7 +3,7 @@ package hw3.hash;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.princeton.cs.algs4.StdRandom;
+// import edu.princeton.cs.algs4.StdRandom;
 
 public class HashTableVisualizer {
 
