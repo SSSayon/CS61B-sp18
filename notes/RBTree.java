@@ -171,7 +171,7 @@ public class RBTree<K extends Comparable<K>, V> {
             return null;
         }
 
-        if (isRed(root.left) && isRed(root.right)) {             
+        if (!isRed(root.left) && !isRed(root.right)) {             
             root.color = RED;
         } // 注意！若 root 的左右儿子均为 2-node，
           // 则要先将 root 视为一个从 3-node/4-node 下来的节点
@@ -191,7 +191,7 @@ public class RBTree<K extends Comparable<K>, V> {
             p.left = deleteHelper(key, p.left);
         } 
         else { // delete 两种情况，一是要找的节点在最底下，直接删去；二是在中间，用右子树中的最小元替换后删除右子树中的最小元
-            if (isRed(p.left)) { // 微妙的地方，保证当前节点的左二子不是红色的，
+            if (isRed(p.left)) { // 微妙的地方，保证当前节点的左儿子不是红色的，
                                  // 这样在 moveRedRight 中（保持当前节点至少是 3-node 的方法）才不会出现一些奇怪的颜色错误
                                  // 类比上面 put 的过程，并没有这句话，那是因为 Left-Lean RBTree 的右儿子不可能是红色的
                 p = rotateRight(p);
@@ -221,18 +221,6 @@ public class RBTree<K extends Comparable<K>, V> {
             return p.key;
         }
         return min(p.left);
-    }
-
-    public static void main(String args[]) {
-        RBTree<Integer, Integer> rbTree = new RBTree<>();
-        rbTree.put(4, 4);
-        rbTree.put(9, 9);
-        rbTree.put(5, 5);
-        rbTree.put(7, 7);
-        rbTree.put(6, 6);
-        rbTree.delete(7);
-        rbTree.delete(9);
-        System.out.println(rbTree.get(6));
     }
 
 }
