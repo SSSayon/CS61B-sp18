@@ -1,9 +1,17 @@
 package lab11.graphs;
 
+import java.util.PriorityQueue;
+
 /**
  *  @author Josh Hug
  */
 public class MazeAStarPath extends MazeExplorer {
+    /* Inherits public fields:
+    public int[] distTo;
+    public int[] edgeTo;
+    public boolean[] marked;
+    */
+
     private int s;
     private int t;
     private boolean targetFound = false;
@@ -20,7 +28,7 @@ public class MazeAStarPath extends MazeExplorer {
 
     /** Estimate of the distance from v to the target. */
     private int h(int v) {
-        return -1;
+        return Math.abs(maze.toX(v) - maze.toX(t)) + Math.abs(maze.toY(v) - maze.toY(t));
     }
 
     /** Finds vertex estimated to be closest to target. */
@@ -31,7 +39,34 @@ public class MazeAStarPath extends MazeExplorer {
 
     /** Performs an A star search from vertex s. */
     private void astar(int s) {
-        // TODO
+        PriorityQueue<Integer> pq = new PriorityQueue<>((v1, v2) -> (distTo[v1] + h(v1)) - (distTo[v2] + h(v2)));
+        pq.add(s);
+        
+        while (!pq.isEmpty()) {
+            int cur = pq.poll();
+            marked[cur] = true;
+            announce();
+
+            if (cur == t) {
+                targetFound = true;
+                return;
+            }
+
+            for (int nxt : maze.adj(cur)) {
+                if (!marked[nxt]) {
+                    int dist = distTo[cur] + 1;
+                    if (dist < distTo[nxt]) {
+                        distTo[nxt] = dist;
+                        edgeTo[nxt] = cur;
+                        announce();
+                        if (pq.contains(nxt)) {
+                            pq.remove(nxt);
+                        }
+                        pq.add(nxt);
+                    }
+                }
+            }
+        }
     }
 
     @Override
