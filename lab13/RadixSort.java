@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Class for doing Radix sort
  *
@@ -16,8 +18,29 @@ public class RadixSort {
      * @return String[] the sorted array
      */
     public static String[] sort(String[] asciis) {
-        // TODO: Implement LSD Sort
-        return null;
+        // Implement LSD Sort
+        if (asciis == null || asciis.length <= 1) {
+            return asciis;
+        }
+
+        int maxLength = getMaxLength(asciis);
+        String[] sorted = Arrays.copyOf(asciis, asciis.length);
+
+        for (int i = 0; i < maxLength; ++i) {
+            sortHelperLSD(sorted, asciis, i);
+        }
+
+        return sorted;
+    }
+
+    private static int getMaxLength(String[] asciis) {
+        int maxLength = 0;
+        for (String s : asciis) {
+            if (s.length() > maxLength) {
+                maxLength = s.length();
+            }
+        }
+        return maxLength;
     }
 
     /**
@@ -26,9 +49,29 @@ public class RadixSort {
      * @param asciis Input array of Strings
      * @param index The position to sort the Strings on.
      */
-    private static void sortHelperLSD(String[] asciis, int index) {
-        // Optional LSD helper method for required LSD radix sort
-        return;
+    private static void sortHelperLSD(String[] sorted, String[] original, int index) {
+        final int ASCII_RANGE = 256;
+
+        int length = sorted.length;
+        String[] temp = new String[length];
+        int[] count = new int[ASCII_RANGE + 1];
+
+        for (int i = 0; i < length; i++) {
+            int charIndex = index < original[i].length() ? (int) original[i].charAt(index) + 1 : 0;
+            count[charIndex]++;
+        }
+
+        for (int i = 1; i < ASCII_RANGE; i++) {
+            count[i] += count[i - 1];
+        }
+
+        for (int i = length - 1; i >= 0; i--) {
+            int charIndex = index < original[i].length() ? (int) original[i].charAt(index) + 1 : 0;
+            temp[count[charIndex] - 1] = sorted[i];
+            count[charIndex]--;
+        }
+
+        System.arraycopy(temp, 0, sorted, 0, length);
     }
 
     /**
