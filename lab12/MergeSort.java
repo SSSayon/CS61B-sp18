@@ -1,4 +1,7 @@
+import javax.management.QueryEval;
+
 import edu.princeton.cs.algs4.Queue;
+import jh61b.junit.textui;
 
 public class MergeSort {
     /**
@@ -35,7 +38,14 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         // Your code here!
-        return null;
+
+        Queue<Queue<Item>> ret = new Queue<>();
+        for (Item item : items) {
+            Queue<Item> tmp = new Queue<>();
+            tmp.enqueue(item);
+            ret.enqueue(tmp);
+        } 
+        return ret;
     }
 
     /**
@@ -54,13 +64,39 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+
+        Queue<Item> ret = new Queue<>();
+        while ((!q1.isEmpty()) || (!q2.isEmpty())) {
+            ret.enqueue(getMin(q1, q2));
+        }
+        return ret;
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+
+        Queue<Queue<Item>> sortedQueueQueue = makeSingleItemQueues(items);
+        while (sortedQueueQueue.size() > 1) {
+            Queue<Queue<Item>> newest = new Queue<>();
+            while (!sortedQueueQueue.isEmpty()) {
+                Queue<Item> q1 = sortedQueueQueue.dequeue();
+                Queue<Item> q2 = sortedQueueQueue.isEmpty() ? new Queue<>() : sortedQueueQueue.dequeue();
+                newest.enqueue(mergeSortedQueues(q1, q2));
+            }
+            sortedQueueQueue = newest;
+        } 
+        return sortedQueueQueue.dequeue();
+    }
+
+    public static void main(String args[]) {
+        Queue<String> q = new Queue<>();
+        q.enqueue("BBB");
+        q.enqueue("CA");
+        q.enqueue("AZZZ");
+        Queue<String> sortedQueue = MergeSort.mergeSort(q);
+        System.out.println(q);
+        System.out.println(sortedQueue);
     }
 }
