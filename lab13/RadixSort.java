@@ -27,7 +27,7 @@ public class RadixSort {
         String[] sorted = Arrays.copyOf(asciis, asciis.length);
 
         for (int i = 0; i < maxLength; ++i) {
-            sortHelperLSD(sorted, asciis, i);
+            sorted = sortHelperLSD(sorted, i, maxLength);
         }
 
         return sorted;
@@ -43,35 +43,42 @@ public class RadixSort {
         return maxLength;
     }
 
+    private static int asciiAtIndex(String s, int index, int maxLength) {
+        if (s.length() < maxLength - index) {
+            return 0;
+        } 
+        return (int) s.charAt(index - (maxLength - s.length()));
+    }
+
     /**
      * LSD helper method that performs a destructive counting sort the array of
      * Strings based off characters at a specific index.
      * @param asciis Input array of Strings
      * @param index The position to sort the Strings on.
      */
-    private static void sortHelperLSD(String[] sorted, String[] original, int index) {
+    private static String[] sortHelperLSD(String[] sorted, int index, int maxLength) {
         final int ASCII_RANGE = 256;
 
-        int length = sorted.length;
-        String[] temp = new String[length];
-        int[] count = new int[ASCII_RANGE + 1];
-
-        for (int i = 0; i < length; i++) {
-            int charIndex = index < original[i].length() ? (int) original[i].charAt(index) + 1 : 0;
-            count[charIndex]++;
+        int[] counts = new int[ASCII_RANGE];
+        for (String s : sorted) {
+            counts[asciiAtIndex(s, index, maxLength)]++;
         }
 
-        for (int i = 1; i < ASCII_RANGE; i++) {
-            count[i] += count[i - 1];
+        int[] starts = new int[ASCII_RANGE];
+        starts[0] = 0;
+        for (int i = 1; i < ASCII_RANGE; ++i) {
+            starts[i] = starts[i-1] + counts[i-1];
         }
 
-        for (int i = length - 1; i >= 0; i--) {
-            int charIndex = index < original[i].length() ? (int) original[i].charAt(index) + 1 : 0;
-            temp[count[charIndex] - 1] = sorted[i];
-            count[charIndex]--;
+        String[] sorted2 = new String[sorted.length];
+        for (int i = 0; i < sorted.length; ++i) {
+            int n = asciiAtIndex(sorted[i], index, maxLength);
+            int place = starts[n];
+            sorted2[place] = sorted[i];
+            starts[n]++;
         }
 
-        System.arraycopy(temp, 0, sorted, 0, length);
+        return sorted2;
     }
 
     /**
@@ -87,5 +94,24 @@ public class RadixSort {
     private static void sortHelperMSD(String[] asciis, int start, int end, int index) {
         // Optional MSD helper method for optional MSD radix sort
         return;
+    }
+
+    public static void main(String args[]) {
+        String[] s = new String[5];
+        s[0] = "a3e";
+        s[1] = "ADFAFA";
+        s[2] = "gesaf";
+        s[3] = "daf";
+        s[4] = "Z";
+
+        String[] sorted = sort(s);
+
+        for (String i : s) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        for (String i : sorted) {
+            System.out.print(i + " ");
+        }
     }
 }
