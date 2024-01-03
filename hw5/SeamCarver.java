@@ -13,7 +13,7 @@ public class SeamCarver {
     }
 
     public Picture picture() { // current picture
-        return picture;
+        return new Picture(picture);
     }
 
     public int width() { // width of current picture
@@ -39,7 +39,7 @@ public class SeamCarver {
         if (x < 0 || x >= W || y < 0 || y >= H) {
             throw new java.lang.IndexOutOfBoundsException();
         }
-        
+
         double ret = 0;
         for (int i = 0; i < 3; ++i) {
             int tmp = getRGB(plusX(x), y, i) - getRGB(minusX(x), y, i);
