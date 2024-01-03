@@ -26,13 +26,13 @@ public class RadixSort {
         int maxLength = getMaxLength(asciis);
         String[] sorted = Arrays.copyOf(asciis, asciis.length);
 
-        for (int i = 0; i < maxLength; ++i) {
+        for (int i = maxLength -1; i >= 0; --i) {
             sorted = sortHelperLSD(sorted, i, maxLength);
         }
 
         return sorted;
     }
-
+ 
     private static int getMaxLength(String[] asciis) {
         int maxLength = 0;
         for (String s : asciis) {
@@ -44,10 +44,10 @@ public class RadixSort {
     }
 
     private static int asciiAtIndex(String s, int index, int maxLength) {
-        if (s.length() < maxLength - index) {
+        if (index >= s.length()) {
             return 0;
-        } 
-        return (int) s.charAt(index - (maxLength - s.length()));
+        }
+        return (int) s.charAt(index);
     }
 
     /**
