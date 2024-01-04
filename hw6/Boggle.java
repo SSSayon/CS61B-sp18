@@ -57,7 +57,11 @@ public class Boggle {
         Trie trie = new Trie();
 
         while (!in.isEmpty()) {
-            trie.insert(in.readLine().replaceAll("[^a-zA-Z]", "").toLowerCase());
+            String word = in.readLine();
+            if (word != word.replaceAll("[^a-z]", "")) {
+                continue;
+            }
+            trie.insert(word);
         }
         in.close();
 
@@ -110,7 +114,7 @@ public class Boggle {
         visited[row][col] = false;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         System.out.println(Boggle.solve(7, "exampleBoard.txt"));
     }
 }
